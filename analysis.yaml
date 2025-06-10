@@ -1,0 +1,13 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: rollout-analysis
+spec:
+  metrics:
+  - name: http-success-rate
+    interval: 1m
+    count: 3
+    successCondition: result > 95
+    provider:
+      prometheus:
+        query: rate(http_requests_total{status=~"2.."}[1m])
